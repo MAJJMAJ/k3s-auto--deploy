@@ -22,7 +22,7 @@
           - ca-certificates
           - software-properties-common
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Download K3s install script
       ansible.builtin.get_url:
