@@ -5,8 +5,9 @@
 
   tasks:
     - name: Update the system
-      ansible.builtin.command: apt update && apt upgrade -y
-      changed_when: false
+      shell: apt update && apt upgrade -y
+      become: true
+
 
     - name: Install required packages
       ansible.builtin.apt:
