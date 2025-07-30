@@ -1,27 +1,35 @@
 ---
-- name: Deploy NGINX on target node
+- name: deploy nginx on target node
   hosts: k3s_nodes
   become: true
 
   tasks:
     - name: Apply Deployment manifest
-      ansible.builtin.shell: kubectl apply -f ../k3s_manifests/nginx_deployment.yaml
+      command: kubectl apply -f ../k3s_manifests/nginx_deployment.yaml
+      changed_when: false
+      become: true
 
     - name: Apply Service manifest
-      ansible.builtin.shell: kubectl apply -f ../k3s_manifests/nginx_service.yaml
+      command: kubectl apply -f ../k3s_manifests/nginx_service.yaml
+      changed_when: false
+      become: true
 
     - name: Get list of pods
-      ansible.builtin.shell: kubectl get pods
+      command: kubectl get pods
+      changed_when: false
+      become: true
       register: pods_output
 
     - name: Show pods output
-      ansible.builtin.debug:
+      debug:
         var: pods_output.stdout_lines
 
     - name: Get the service address and port
-      ansible.builtin.shell: kubectl get svc nginx-service
+      command: kubectl get svc nginx-service
+      changed_when: false
+      become: true
       register: address_link
 
     - name: Show the address
-      ansible.builtin.debug:
+      debug:
         var: address_link.stdout_lines
