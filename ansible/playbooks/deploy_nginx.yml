@@ -4,11 +4,11 @@
 
   tasks:
     - name: Apply Deployment manifest
-      shell: kubectl apply -f /home/{{ ansible_user }}/nginx-deployment.yaml
+      shell: kubectl apply -f /k3s_manifests/nginx_deployment.yaml
       become: true
 
     - name: Apply Service manifest
-      shell: kubectl apply -f /home/{{ ansible_user }}/nginx-service.yaml
+      shell: kubectl apply -f /k3s_manifests/nginx_service.yaml
       become: true
 
     - name: Get list of pods
@@ -25,6 +25,6 @@
       become: true
       register: address_link
 
-    - name: show the address
+    - name: Show the address
       debug:
         var: address_link.stdout_lines
