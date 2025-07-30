@@ -1,19 +1,20 @@
+---
 - name: Install K3s on target node
   hosts: k3s_nodes
   become: true
 
   tasks:
-    - name: update the system
-      shell: sudo apt update && sudo apt upgrade -y
+    - name: Update the system
+      ansible.builtin.shell: sudo apt update && sudo apt upgrade -y
 
     - name: Install another libraries
-      shell: sudo apt install -y curl wget git unzip vim gnupg lsb-release apt-transport-https ca-certificates software-properties-common
+      ansible.builtin.shell: sudo apt install -y curl wget git unzip vim gnupg lsb-release apt-transport-https ca-certificates software-properties-common
 
     - name: Install K3s using official script
-      shell: curl -sfL https://get.k3s.io | sh -
+      ansible.builtin.shell: curl -sfL https://get.k3s.io | sh -
 
     - name: Check K3s service status
-      command: systemctl status k3s
+      ansible.builtin.command: systemctl status k3s
       register: k3s_status
       ignore_errors: true
 
