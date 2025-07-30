@@ -1,14 +1,15 @@
+---
 - name: deploy nginx on target node
   hosts: k3s_nodes
   become: true
 
   tasks:
     - name: Apply Deployment manifest
-      shell: kubectl apply -f /k3s_manifests/nginx_deployment.yaml
+      shell: kubectl apply -f ../k3s_manifests/nginx_deployment.yaml
       become: true
 
     - name: Apply Service manifest
-      shell: kubectl apply -f /k3s_manifests/nginx_service.yaml
+      shell: kubectl apply -f ../k3s_manifests/nginx_service.yaml
       become: true
 
     - name: Get list of pods
