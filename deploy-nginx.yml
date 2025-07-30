@@ -1,1 +1,72 @@
+- name: deploy nginx on target node
+  hosts: k3s_nodes
+  become: true
 
+  tasks:
+    - name: Create Nginx deployment YAML file
+      copy:
+        dest: /home/{{ ansible_user }}/nginx-deployment.yaml
+        content: |
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: nginx-deployment
+            labels:
+              app: nginx
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: nginx
+            template:
+              metadata:
+                labels:
+                  app: nginx
+              spec:
+                containers:
+                  - name: nginx
+                    image: nginx:latest
+                    ports:
+                      - containerPort: 80
+
+    - name: Create Nginx service YAML file
+      copy:
+        dest: /home/{{ ansible_user }}/nginx-service.yaml
+        content: |
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: nginx-service
+          spec:
+            selector:
+              app: nginx
+            type: LoadBalancer
+            ports:
+              - protocol: TCP
+                port: 80
+                targetPort: 80
+    - name: Apply Deployment manifest
+      shell: kubectl apply -f /home/{{ ansible_user }}/nginx-deployment.yaml
+      become: true
+
+    - name: Apply Service manifest
+      shell: kubectl apply -f /home/{{ ansible_user }}/nginx-service.yaml
+      become: true
+
+    - name: Get list of pods
+      shell: kubectl get pods
+      become: true
+      register: pods_output
+
+    - name: Show pods output
+      debug:
+        var: pods_output.stdout_lines
+
+    - name: Get the service address and port
+      shell: kubectl get svc nginx-service
+      become: true
+      register: address_link
+
+    - name: show the address
+      debug:
+        var: address_link.stdout_lines
