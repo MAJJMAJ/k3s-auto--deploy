@@ -53,17 +53,61 @@ This repository sets up a remote Nginx app deployed on a kubernetes Cluster usin
 ---
 ## ✅ Prerequisites
  
-Make sure you have these installed **on your local machine**:
+Make sure you have these installed on your local machine:
+
+* [VirtualBox](https://www.virtualbox.org/) to create two VMs, one worker and one master
+
+---
+
+## 🏁 Getting Started
  
-* [VirtualBox](https://www.virtualbox.org/)
-* [Vagrant](https://www.vagrantup.com/)
-* [Ansible](https://docs.ansible.com/)
-* [Git](https://git-scm.com/)
- 
-Optional (for local validation):
+1. **Clone the Repository**
  
 ```bash
-pip install ansible-lint yamllint
+git clone https://github.com/MAJJMAJ/k3s-auto--deploy.git
+cd /hpe-use-case-1
+```
+ 
+2. **Launch the VM**
+ 
+```bash
+vagrant up
+```
+ 
+3. **Access the VM**
+ 
+```bash
+vagrant ssh
+```
+ 
+4. **Run the Ansible Playbooks**
+ 
+```bash
+ansible-playbook ansible/ansible-jenkins.yaml
+```
+ 
+(Optional: Install validation tools inside VM)
+ 
+```bash
+ansible-playbook ansible/install_validation_tools.yaml
 ```
  
 ---
+ 
+## 🔄 CI/CD Pipeline
+ 
+* Triggered automatically on `git push`
+* Runs:
+ 
+  * `yamllint` on `k8s-manifests/`
+  * `ansible-lint` on `ansible/`
+* Validates Ansible syntax, FQCN usage, idempotency, and YAML formatting
+<img width="1536" height="1024" alt="ChatGPT Image Jul 27, 2025, 09_33_49 PM" src="https://github.com/user-attachments/assets/b0699f8d-d94f-4e7f-8d43-121e98f5d89c" />
+ 
+---
+ 
+## 🌐 Result
+ 
+* Jenkins is installed and running on port `8080` of the VM
+* Playbooks follow best practices (FQCN, idempotency)
+* CI/CD ensures your infrastructure code remains clean and consistent
