@@ -15,7 +15,7 @@
       become: true
 
     - name: Apply Service manifest
-      command: kubectl apply -f k3s_manifests/nginx_service.yaml
+      command: kubectl apply -f nginx_service.yaml
       changed_when: false
       become: true
 
