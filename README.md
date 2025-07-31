@@ -49,8 +49,8 @@ This repository sets up a remote Nginx app deployed on a kubernetes Cluster usin
 ├── k3s-manifests/                      # (Optional) Kubernetes YAMLs
     ├── nginx_deployment.yaml
     └── nginx_service.yaml
----
 
+---
 ## ✅ Prerequisites
  
 Make sure you have these installed **on your local machine**:
