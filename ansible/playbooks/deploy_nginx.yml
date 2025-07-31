@@ -10,7 +10,7 @@
       changed_when: false
 
     - name: Apply Deployment manifest
-      command: kubectl apply -f k3s_manifests/nginx_deployment.yaml
+      command: kubectl apply -f nginx_deployment.yaml
       changed_when: false
       become: true
 
