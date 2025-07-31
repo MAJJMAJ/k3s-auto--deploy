@@ -5,7 +5,7 @@
 
   tasks:
     - name: Apply Deployment manifest
-      command: ls #kubectl apply -f k3s_manifests/nginx_deployment.yaml
+      command: kubectl apply -f k3s_manifests/nginx_deployment.yaml
       changed_when: false
       become: true
 
