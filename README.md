@@ -28,7 +28,7 @@ This repository sets up a remote Nginx app deployed on a kubernetes Cluster usin
  
 | Tool           | Purpose                                                                   |
 | -------------- | --------------------------------------------------------------------------|
-| VirtualBox     | Hypervisor for the VMs                                                    |
+| VirtualBox     | Hypervisor for the ubuntu VMs                                             |
 | Kubernetes     | a lightweight Kubernetes cluster to deploy and manage the app             |
 | Ansible        | Install k3s and deploy the app                                            |
 | Jenkins        | Validates all the files and automate the deployment of the app            |
@@ -61,23 +61,29 @@ Make sure you have these installed on your local machine:
 
 ## 🏁 Getting Started
  
-1. **Clone the Repository**
+1. **Clone the Repository on the first vm**
  
 ```bash
 git clone https://github.com/MAJJMAJ/k3s-auto--deploy.git
-cd /hpe-use-case-1
+cd /k3s-auto--deploy
 ```
  
-2. **Launch the VM**
+2. **Setting up the environment**
  
 ```bash
-vagrant up
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y curl wget git unzip vim gnupg lsb-release apt-transport-https ca-certificates software-properties-common
 ```
  
-3. **Access the VM**
+3. **Installing SSH**
  
 ```bash
-vagrant ssh
+sudo apt install -y openssh-server
+sudo systemctl enable ssh
+sudo systemctl start ssh
+ssh-keygen -t rsa -b 4096 -C "example@your_email.com"
+ssh-copy-id majj@10.191.74.52
 ```
  
 4. **Run the Ansible Playbooks**
